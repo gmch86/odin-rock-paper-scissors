@@ -54,12 +54,14 @@ function playRound(humanChoice, computerChoice) {
     computerScore++;
   }
 
+  alert(msg);
   console.log(msg);
 }
 
 function playGame() {
   const numberOfRounds = 5;
   let round = 1;
+  let msg;
 
   while (round <= numberOfRounds) {
     try {
@@ -78,10 +80,13 @@ function playGame() {
 
   // Declare game winner
   if (humanScore === computerScore) {
-    console.log("Game over. It was a draw!");
+    msg = "Game over. It was a draw!";
   } else if (humanScore > computerScore) {
-    console.log("Game over. You are the winner!");
+    msg = "Game over. You are the winner!";
   } else {
-    console.log("Game over. You are the loser!");
+    msg = "Game over. You are the loser!";
   }
+
+  alert(msg);
+  console.log(msg);
 }
