@@ -2,7 +2,17 @@ let humanScore = 0;
 let computerScore = 0;
 
 function getComputerChoice() {
-  // returns string values "rock", "paper" or "scissors"
+  // Random number between 1-3
+  const choice = Math.floor(Math.random() * 3) + 1;
+
+  switch (choice) {
+    case 1:
+      return "rock";
+    case 2:
+      return "paper";
+    case 3:
+      return "scissors";
+  }
 }
 
 function getHumanChoice() {
