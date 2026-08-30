@@ -61,8 +61,8 @@ function playRound(humanChoice, computerChoice) {
     computerScore++;
   }
 
-  alert(msg);
   console.log(msg);
+  alert(msg);
 }
 
 function playGame() {
@@ -94,6 +94,6 @@ function playGame() {
     msg = "Game over. You are the loser!";
   }
 
-  alert(msg);
   console.log(msg);
+  alert(msg);
 }
