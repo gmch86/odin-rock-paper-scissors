@@ -16,7 +16,17 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-  // prompts user for a choice between "rock", "paper" or "scissors"
+  // Prompts user for a choice and convert to all lowercase
+  const choice = window.prompt().toLowerCase();
+
+  // Validate choice
+  if (choice !== "rock" && choice !== "paper" && choice !== "scissors") {
+    throw new Error(`Choice must be "rock", "paper" or "scissors"`, {
+      cause: `Invalid choice: "${choice}"`,
+    });
+  } else {
+    return choice;
+  }
 }
 
 function playRound(humanChoice, computerChoice) {
