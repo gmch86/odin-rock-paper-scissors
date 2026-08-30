@@ -37,7 +37,14 @@ function getHumanChoice() {
 }
 
 function playRound(humanChoice, computerChoice) {
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   let msg;
+
+  humanChoice = capitalizeFirstLetter(humanChoice);
+  computerChoice = capitalizeFirstLetter(computerChoice);
 
   // Determine winner and increase scores
   if (humanChoice === computerChoice) {
