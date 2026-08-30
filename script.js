@@ -51,6 +51,21 @@ function playRound(humanChoice, computerChoice) {
 }
 
 function playGame() {
-  // keeps track of scores
-  // calls playRound 5 times before declaring winner
+  const numberOfRounds = 5;
+  let round = 1;
+
+  while (round <= numberOfRounds) {
+    console.log(`Round ${round}`);
+    playRound(getHumanChoice(), getComputerChoice());
+    round++;
+  }
+
+  // Declare game winner
+  if (humanScore === computerScore) {
+    console.log("Game over. It was a draw!");
+  } else if (humanScore > computerScore) {
+    console.log("Game over. You are the winner!");
+  } else {
+    console.log("Game over. You are the loser!");
+  }
 }
