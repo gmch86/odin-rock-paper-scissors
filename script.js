@@ -30,9 +30,24 @@ function getHumanChoice() {
 }
 
 function playRound(humanChoice, computerChoice) {
-  // make humanChoice case-insensitive
-  // increments score of round winner
-  // logs round winner to console
+  let msg;
+
+  // Determine winner and increase scores
+  if (humanChoice === computerChoice) {
+    msg = "It's a draw!";
+  } else if (
+    (computerChoice == "rock" && humanChoice == "paper") ||
+    (computerChoice == "paper" && humanChoice == "scissors") ||
+    (computerChoice == "scissors" && humanChoice == "rock")
+  ) {
+    msg = `You have won this round! ${humanChoice} beats ${computerChoice}.`;
+    humanScore++;
+  } else {
+    msg = `You have lost this round! ${computerChoice} beats ${humanChoice}.`;
+    computerScore++;
+  }
+
+  console.log(msg);
 }
 
 function playGame() {
