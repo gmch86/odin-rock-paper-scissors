@@ -17,13 +17,20 @@ function getComputerChoice() {
 
 function getHumanChoice() {
   // Prompts user for a choice and convert to all lowercase
-  const choice = window.prompt().toLowerCase();
+  let choice = window.prompt(`Choose "rock", "paper" or "scissors"!`);
+
+  if (choice) {
+    choice = choice.toLowerCase();
+  }
 
   // Validate choice
   if (choice !== "rock" && choice !== "paper" && choice !== "scissors") {
-    throw new Error(`Choice must be "rock", "paper" or "scissors"`, {
-      cause: `Invalid choice: "${choice}"`,
+    const error = new Error(`Choice must be "rock", "paper" or "scissors"`, {
+      cause: `Invalid choice. Received: "${choice}`,
     });
+
+    error.value = choice;
+    throw error;
   } else {
     return choice;
   }
@@ -55,9 +62,18 @@ function playGame() {
   let round = 1;
 
   while (round <= numberOfRounds) {
-    console.log(`Round ${round}`);
-    playRound(getHumanChoice(), getComputerChoice());
-    round++;
+    try {
+      console.log(`Round ${round}`);
+      playRound(getHumanChoice(), getComputerChoice());
+      round++;
+    } catch (err) {
+      // Exit game if prompt window is closed
+      if (err.value === null) {
+        return console.log("Game ended.");
+      }
+
+      console.log(err);
+    }
   }
 
   // Declare game winner
