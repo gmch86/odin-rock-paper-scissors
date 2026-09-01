@@ -41,23 +41,22 @@ function playRound(humanChoice, computerChoice) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  let msg;
-
-  humanChoice = capitalizeFirstLetter(humanChoice);
-  computerChoice = capitalizeFirstLetter(computerChoice);
+  const rules = {
+    rock: { winsAgainst: "scissors", losesAgainst: "paper" },
+    paper: { winsAgainst: "rock", losesAgainst: "scissors" },
+    scissors: { winsAgainst: "paper", losesAgainst: "rock" },
+  };
 
   // Determine winner and increase scores
+  let msg;
+
   if (humanChoice === computerChoice) {
     msg = "It's a draw!";
-  } else if (
-    (computerChoice == "rock" && humanChoice == "paper") ||
-    (computerChoice == "paper" && humanChoice == "scissors") ||
-    (computerChoice == "scissors" && humanChoice == "rock")
-  ) {
-    msg = `You have won this round! ${humanChoice} beats ${computerChoice}.`;
+  } else if (rules[humanChoice].winsAgainst === computerChoice) {
+    msg = `You have won this round! ${capitalizeFirstLetter(humanChoice)} beats ${capitalizeFirstLetter(computerChoice)}.`;
     humanScore++;
-  } else {
-    msg = `You have lost this round! ${computerChoice} beats ${humanChoice}.`;
+  } else if (rules[humanChoice].losesAgainst === computerChoice) {
+    msg = `You have lost this round! ${capitalizeFirstLetter(computerChoice)} beats ${capitalizeFirstLetter(humanChoice)}.`;
     computerScore++;
   }
 
