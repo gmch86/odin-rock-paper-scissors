@@ -4,9 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock Paper Scissors</title>
-    <script src="./script.js"></script>
+    <script src="./script.js" defer></script>
   </head>
   <body>
-    <button type="button" onClick="playGame()">New game</button>
+    <label for="ui"
+      >UI <input type="checkbox" id="ui" name="ui" checked
+    /></label>
+
+    <button type="button" class="play-btn">Play</button>
+    <button type="button" class="rock-btn">Rock</button>
+    <button type="button" class="paper-btn">Paper</button>
+    <button type="button" class="scissors-btn">Scissors</button>
   </body>
 </html>

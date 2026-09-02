@@ -1,6 +1,22 @@
 let humanScore = 0;
 let computerScore = 0;
 
+const uiCheckbox = document.querySelector("#ui");
+const playBtn = document.querySelector("button.play-btn");
+const rockBtn = document.querySelector("button.rock-btn");
+const paperBtn = document.querySelector("button.paper-btn");
+const scissorsBtn = document.querySelector("button.scissors-btn");
+
+let uiEnabled = uiCheckbox.checked;
+
+uiCheckbox.addEventListener("change", (e) => {
+  uiEnabled = e.target.checked;
+});
+
+playBtn.addEventListener("click", (e) => {
+  playGame();
+});
+
 function getComputerChoice() {
   // Random number between 1-3
   const choice = Math.floor(Math.random() * 3) + 1;
@@ -69,30 +85,101 @@ function playGame() {
   let round = 1;
   let msg;
 
-  while (round <= numberOfRounds) {
-    try {
-      console.log(`Round ${round}`);
-      playRound(getHumanChoice(), getComputerChoice());
-      round++;
-    } catch (err) {
-      // Exit game if prompt window is closed
-      if (err.value === null) {
-        return console.log("Game ended.");
-      }
+  // Remove listeners on UI change
+  uiCheckbox.addEventListener(
+    "change",
+    (e) => {
+      eventListenerHelper("remove");
+    },
+    { once: true },
+  );
 
-      console.log(err);
+  // Remove listeners on game reset
+  playBtn.addEventListener(
+    "click",
+    (e) => {
+      eventListenerHelper("remove");
+    },
+    { once: true },
+  );
+
+  if (!uiEnabled) {
+    while (round < numberOfRounds) {
+      try {
+        // Log beginning of each round
+        console.log(`Round ${round}`);
+
+        playRound(getHumanChoice(), getComputerChoice());
+        round++;
+      } catch (err) {
+        if (err.value === null) {
+          // End game if prompt window is closed
+          return console.log("Game ended.");
+        }
+
+        console.log(err);
+      }
+    }
+
+    isGameOver();
+  } else {
+    // Log the round on game start
+    console.log(`Round ${round}`);
+
+    // Initialize listeners on game start
+    eventListenerHelper("add");
+  }
+
+  function eventListenerHelper(state) {
+    if (state === "add") {
+      rockBtn.addEventListener("click", rockEventHandler);
+      paperBtn.addEventListener("click", paperEventHandler);
+      scissorsBtn.addEventListener("click", scissorsEventHandler);
+    } else if (state === "remove") {
+      rockBtn.removeEventListener("click", rockEventHandler);
+      paperBtn.removeEventListener("click", paperEventHandler);
+      scissorsBtn.removeEventListener("click", scissorsEventHandler);
     }
   }
 
-  // Declare game winner
-  if (humanScore === computerScore) {
-    msg = "Game over. It was a draw!";
-  } else if (humanScore > computerScore) {
-    msg = "Game over. You are the winner!";
-  } else {
-    msg = "Game over. You are the loser!";
+  function rockEventHandler() {
+    playRoundWrapper("rock");
   }
 
-  console.log(msg);
-  alert(msg);
+  function paperEventHandler() {
+    playRoundWrapper("paper");
+  }
+
+  function scissorsEventHandler() {
+    playRoundWrapper("scissors");
+  }
+
+  function playRoundWrapper(choice) {
+    playRound(choice, getComputerChoice());
+
+    if (!isGameOver()) {
+      round++;
+      console.log(`Round ${round}`);
+    }
+  }
+
+  function isGameOver() {
+    // Declare game winner
+    if (round === numberOfRounds) {
+      if (humanScore === computerScore) {
+        msg = "Game over. It was a draw!";
+      } else if (humanScore > computerScore) {
+        msg = "Game over. You are the winner!";
+      } else {
+        msg = "Game over. You are the loser!";
+      }
+
+      console.log(msg);
+      alert(msg);
+
+      return true;
+    }
+
+    return false;
+  }
 }
