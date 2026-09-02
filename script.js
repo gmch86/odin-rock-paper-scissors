@@ -3,6 +3,7 @@ main();
 function main() {
   const uiCheckbox = document.querySelector("#ui");
   const playBtn = document.querySelector("button.play-btn");
+  const endBtn = document.querySelector("button.end-btn");
   const rockBtn = document.querySelector("button.rock-btn");
   const paperBtn = document.querySelector("button.paper-btn");
   const scissorsBtn = document.querySelector("button.scissors-btn");
@@ -40,6 +41,10 @@ function main() {
         }
       }
     }
+  });
+
+  endBtn.addEventListener("click", (e) => {
+    resetGame();
   });
 
   rockBtn.addEventListener("click", (e) => {
