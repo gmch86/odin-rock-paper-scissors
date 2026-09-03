@@ -1,73 +1,80 @@
-main();
-
-function main() {
+(() => {
+  const enabledUIContainer = document.querySelector(".enabled-ui-container");
   const uiCheckbox = document.querySelector("#ui");
   const playBtn = document.querySelector("button.play-btn");
-  const endBtn = document.querySelector("button.end-btn");
-  const rockBtn = document.querySelector("button.rock-btn");
-  const paperBtn = document.querySelector("button.paper-btn");
-  const scissorsBtn = document.querySelector("button.scissors-btn");
+  const resetBtn = document.querySelector("button.reset-btn");
+  const choiceBtns = document.querySelector(".choice-btns");
+  const battleBtn = document.querySelector("button.battle-btn");
+  const roundDisplay = document.querySelector(".round-display");
+  const humanScoreDisplay = document.querySelector(".human-score");
+  const computerScoreDisplay = document.querySelector(".computer-score");
 
   // Object to store game data
   const game = {
-    humanScore: 1,
-    computerScore: 1,
+    humanScore: 0,
+    computerScore: 0,
     numberOfRounds: 5,
-    currentRound: null,
+    currentRound: 1,
+    humanChoice: null,
     result: null,
   };
 
-  let uiEnabled = uiCheckbox.checked;
+  resetGame();
+  updateUI();
 
   uiCheckbox.addEventListener("change", (e) => {
     resetGame();
-    uiEnabled = e.target.checked;
+    updateUI();
   });
 
   playBtn.addEventListener("click", (e) => {
-    resetGame();
-    game.currentRound = 1;
-    console.log(`Round ${game.currentRound}`);
+    if (game.currentRound !== 1) {
+      resetGame();
+    }
 
-    if (!uiEnabled) {
-      while (!game.result) {
-        const humanChoice = getHumanChoice();
+    while (!game.result) {
+      const humanChoice = getHumanChoice();
 
-        if (!humanChoice) {
-          resetGame();
-          return;
-        } else {
-          playRound(humanChoice, getComputerChoice());
-        }
+      if (!humanChoice) {
+        resetGame();
+        return;
+      } else {
+        playRound(humanChoice, getComputerChoice());
       }
     }
   });
 
-  endBtn.addEventListener("click", (e) => {
+  resetBtn.addEventListener("click", (e) => {
     resetGame();
+    updateUI();
   });
 
-  rockBtn.addEventListener("click", (e) => {
-    if (uiEnabled) playRound(getHumanChoice("rock"), getComputerChoice());
+  choiceBtns.addEventListener("click", (e) => {
+    game.humanChoice = getHumanChoice(e.target.value);
+    console.log(`You have selected: ${game.humanChoice}`);
+
+    updateUI();
   });
 
-  paperBtn.addEventListener("click", (e) => {
-    if (uiEnabled) playRound(getHumanChoice("paper"), getComputerChoice());
-  });
+  battleBtn.addEventListener("click", (e) => {
+    if (game.humanChoice) {
+      playRound(game.humanChoice, getComputerChoice());
+    } else {
+      console.error("No choice selected!");
+    }
 
-  scissorsBtn.addEventListener("click", (e) => {
-    if (uiEnabled) playRound(getHumanChoice("scissors"), getComputerChoice());
+    updateUI();
   });
 
   function resetGame() {
-    if (game.currentRound) {
-      console.log("Game has ended.");
-    }
-
-    game.humanScore = 1;
-    game.computerScore = 1;
-    game.currentRound = null;
+    game.humanScore = 0;
+    game.computerScore = 0;
+    game.currentRound = 1;
+    game.humanChoice = null;
     game.result = null;
+
+    console.log("Game reset.");
+    console.log(`Round ${game.currentRound}`);
   }
 
   function getComputerChoice() {
@@ -97,8 +104,8 @@ function main() {
       return true;
     };
 
-    // If UI is disabled, keep prompting until valid or cancelled
-    if (!uiEnabled) {
+    // Prompt user for choice until valid or cancelled
+    if (!choice) {
       while (true) {
         choice = window.prompt(`Choose "rock", "paper" or "scissors"!`);
 
@@ -189,4 +196,29 @@ function main() {
       console.log(`Round: ${game.currentRound}`);
     }
   }
-}
+
+  function updateUI() {
+    const toggleSelectedChoice = () => {
+      [...choiceBtns.children].forEach((e) => {
+        e.classList.remove("selected");
+        if (game?.humanChoice === e.value) {
+          e.classList.add("selected");
+        }
+      });
+    };
+
+    let uiEnabled = uiCheckbox.checked;
+
+    if (uiEnabled) {
+      enabledUIContainer.style.display = "";
+      playBtn.style.display = "none";
+      roundDisplay.textContent = `Round ${game.currentRound}`;
+      humanScoreDisplay.textContent = `Human Score: ${game.humanScore}`;
+      computerScoreDisplay.textContent = `Computer Score: ${game.computerScore}`;
+      toggleSelectedChoice();
+    } else {
+      enabledUIContainer.style.display = "none";
+      playBtn.style.display = "";
+    }
+  }
+})();
