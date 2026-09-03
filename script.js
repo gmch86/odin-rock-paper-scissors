@@ -62,6 +62,8 @@
   });
 
   choiceBtns.addEventListener("click", (e) => {
+    if (game.finalResult) return;
+
     if (e.target.dataset.value) {
       game.humanChoice = getHumanChoice(e.target.dataset.value);
       console.log(`You have selected: ${game.humanChoice}`);
