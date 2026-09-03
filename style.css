@@ -16,10 +16,27 @@ body {
 
   section.top {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    * {
+      width: 160px;
+    }
+
+    .versus-text {
+      width: max-content;
+    }
+
+    .computer-score-container {
+      text-align: right;
+    }
   }
 
   section.middle {
     display: flex;
+    justify-content: center;
+    align-items: center;
 
     .human-choice-container,
     .computer-choice-container {
@@ -29,6 +46,7 @@ body {
       width: 200px;
       height: 200px;
       background-color: red;
+      padding: 2em;
 
       * {
         width: 100%;
@@ -43,17 +61,65 @@ body {
       svg {
         display: none;
       }
+
+      .rock-svg {
+        width: 80%;
+      }
     }
 
     .choice-seperator {
       display: flex;
       flex-direction: column;
+      height: 100%;
+
+      .round-result-info-box,
+      .final-result-info-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        * {
+          margin: 0.3em;
+        }
+      }
+
+      button.battle-btn {
+        margin: 2em 0;
+      }
     }
   }
 
-  .choice-btns {
-    .selected {
-      background-color: red;
+  section.bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .choice-btns {
+      display: flex;
+      gap: 2em;
+
+      .selected {
+        background-color: red;
+      }
+
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80px;
+        height: 80px;
+        padding: 0.5em;
+      }
+
+      svg {
+        width: 100%;
+        height: auto;
+        pointer-events: none;
+      }
+
+      .rock-svg {
+        width: 80%;
+      }
     }
   }
 }
