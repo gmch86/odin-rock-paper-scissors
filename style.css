@@ -1,8 +1,17 @@
 body {
   width: 100%;
+
+  * {
+    outline: 1px solid black;
+  }
 }
 
-.enabled-ui-container {
+header {
+  display: flex;
+  justify-content: center;
+}
+
+main {
   display: flex;
   flex-direction: column;
   align-items: center;

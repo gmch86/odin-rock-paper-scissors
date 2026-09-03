@@ -1,7 +1,4 @@
 (() => {
-  const enabledUIContainer = document.querySelector(".enabled-ui-container");
-  const uiCheckbox = document.querySelector("#ui");
-  const playBtn = document.querySelector("button.play-btn");
   const resetBtn = document.querySelector("button.reset-btn");
   const choiceBtns = document.querySelector(".choice-btns");
   const battleBtn = document.querySelector("button.battle-btn");
@@ -32,28 +29,6 @@
   resetGame();
   updateUI();
   updateResultInfoBox();
-
-  uiCheckbox.addEventListener("change", (e) => {
-    resetGame();
-    updateUI();
-  });
-
-  playBtn.addEventListener("click", (e) => {
-    if (game.currentRound !== 1) {
-      resetGame();
-    }
-
-    while (!game.finalResult) {
-      const humanChoice = getHumanChoice();
-
-      if (!humanChoice) {
-        resetGame();
-        return;
-      } else {
-        playRound(humanChoice, getComputerChoice());
-      }
-    }
-  });
 
   resetBtn.addEventListener("click", (e) => {
     resetGame();
@@ -129,42 +104,17 @@
       return true;
     };
 
-    // Prompt user for choice until valid or cancelled
-    if (!choice) {
-      while (true) {
-        choice = window.prompt(`Choose "rock", "paper" or "scissors"!`);
+    choice = choice.toLowerCase();
 
-        // Return null if user cancels prompt so game can be exited
-        if (choice === null) {
-          console.error("Prompt cancelled by user.");
-          return null;
-        }
-
-        choice = choice.toLowerCase();
-
-        // Return choice if valid, else re-prompt
-        if (choiceIsValid()) {
-          return choice;
-        }
-      }
+    // Return choice if valid, else return null
+    if (choiceIsValid()) {
+      return choice;
     } else {
-      choice = choice.toLowerCase();
-
-      // If UI is enabled, return choice if valid, else return null
-      if (choiceIsValid()) {
-        return choice;
-      } else {
-        return null;
-      }
+      return null;
     }
   }
 
-  function playRound(humanChoice, computerChoice, ui = false) {
-    // Determine if a game has been initiated or finished
-    if (!game.currentRound || game.finalResult) {
-      return console.error("No game in progress.");
-    }
-
+  function playRound(humanChoice, computerChoice) {
     const capitalizeFirstLetter = (string) => {
       return string.charAt(0).toUpperCase() + string.slice(1);
     };
@@ -186,8 +136,6 @@
         }
 
         console.log(msg);
-        if (!ui) alert(msg);
-
         return true;
       }
 
@@ -202,6 +150,11 @@
 
     let msg;
     let roundResult;
+
+    // Determine if a game has been initiated or finished
+    if (!game.currentRound || game.finalResult) {
+      return console.error("No game in progress.");
+    }
 
     // Determine winner and increase scores
     if (humanChoice === computerChoice) {
@@ -218,7 +171,6 @@
     }
 
     console.log(msg);
-    if (!ui) alert(msg);
 
     if (!isGameOver()) {
       game.currentRound++;
@@ -255,19 +207,10 @@
       });
     };
 
-    let uiEnabled = uiCheckbox.checked;
-
-    if (uiEnabled) {
-      enabledUIContainer.style.display = "";
-      playBtn.style.display = "none";
-      roundNumberDisplay.textContent = `${game.currentRound}`;
-      humanScoreNumberDisplay.textContent = `${game.humanScore}`;
-      computerScoreNumberDisplay.textContent = `${game.computerScore}`;
-      toggleSelectedChoice();
-    } else {
-      enabledUIContainer.style.display = "none";
-      playBtn.style.display = "";
-    }
+    roundNumberDisplay.textContent = `${game.currentRound}`;
+    humanScoreNumberDisplay.textContent = `${game.humanScore}`;
+    computerScoreNumberDisplay.textContent = `${game.computerScore}`;
+    toggleSelectedChoice();
   }
 
   function updateResultInfoBox(result) {
