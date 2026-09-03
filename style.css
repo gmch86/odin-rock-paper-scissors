@@ -1,5 +1,59 @@
-.choice-btns {
-  .selected {
-    background-color: red;
+body {
+  width: 100%;
+}
+
+.enabled-ui-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  margin: 0 auto;
+  outline: 1px solid black;
+
+  * {
+    outline: 1px solid black;
+  }
+
+  section.top {
+    display: flex;
+  }
+
+  section.middle {
+    display: flex;
+
+    .human-choice-container,
+    .computer-choice-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 200px;
+      height: 200px;
+      background-color: red;
+
+      * {
+        width: 100%;
+        height: 100%;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .no-selection {
+        font-size: 10em;
+        text-align: center;
+      }
+    }
+
+    .choice-seperator {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .choice-btns {
+    .selected {
+      background-color: red;
+    }
   }
 }

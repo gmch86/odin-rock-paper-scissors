@@ -5,9 +5,11 @@
   const resetBtn = document.querySelector("button.reset-btn");
   const choiceBtns = document.querySelector(".choice-btns");
   const battleBtn = document.querySelector("button.battle-btn");
-  const roundDisplay = document.querySelector(".round-display");
-  const humanScoreDisplay = document.querySelector(".human-score");
-  const computerScoreDisplay = document.querySelector(".computer-score");
+  const roundNumberDisplay = document.querySelector(".round-number");
+  const humanScoreNumberDisplay = document.querySelector(".human-score-number");
+  const computerScoreNumberDisplay = document.querySelector(
+    ".computer-score-number",
+  );
 
   // Object to store game data
   const game = {
@@ -212,9 +214,9 @@
     if (uiEnabled) {
       enabledUIContainer.style.display = "";
       playBtn.style.display = "none";
-      roundDisplay.textContent = `Round ${game.currentRound}`;
-      humanScoreDisplay.textContent = `Human Score: ${game.humanScore}`;
-      computerScoreDisplay.textContent = `Computer Score: ${game.computerScore}`;
+      roundNumberDisplay.textContent = `${game.currentRound}`;
+      humanScoreNumberDisplay.textContent = `${game.humanScore}`;
+      computerScoreNumberDisplay.textContent = `${game.computerScore}`;
       toggleSelectedChoice();
     } else {
       enabledUIContainer.style.display = "none";
