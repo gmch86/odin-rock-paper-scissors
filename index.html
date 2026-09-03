@@ -33,9 +33,10 @@
       </section>
       <section class="middle">
         <div class="human-choice-container">
-          <span class="no-selection">?</span>
+          <span class="no-selection" data-value="null">?</span>
           <svg
-            class="rock-svg hidden"
+            class="rock-svg"
+            data-value="rock"
             height="800"
             width="800"
             xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +48,8 @@
             />
           </svg>
           <svg
-            class="paper-svg hidden"
+            class="paper-svg"
+            data-value="paper"
             width="800"
             height="800"
             viewBox="0 0 32 32"
@@ -58,7 +60,8 @@
             />
           </svg>
           <svg
-            class="scissors-svg hidden"
+            class="scissors-svg"
+            data-value="scissors"
             height="800"
             width="800"
             xmlns="http://www.w3.org/2000/svg"
@@ -70,12 +73,21 @@
           </svg>
         </div>
         <div class="choice-seperator">
+          <div class="round-result-info-box">
+            <h2 class="round-result">LOSE!</h2>
+            <p class="round-result-desc">X beats Y!</p>
+          </div>
           <button type="button" class="battle-btn">Battle</button>
+          <div class="final-result-info-box">
+            <h2 class="final-result">GAME OVER!</h2>
+            <p class="final-result-desc">You are the winner!</p>
+          </div>
         </div>
         <div class="computer-choice-container">
-          <span class="no-selection">?</span>
+          <span class="no-selection" data-value="null">?</span>
           <svg
-            class="rock-svg hidden"
+            class="rock-svg"
+            data-value="rock"
             height="800"
             width="800"
             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +99,8 @@
             />
           </svg>
           <svg
-            class="paper-svg hidden"
+            class="paper-svg"
+            data-value="paper"
             width="800"
             height="800"
             viewBox="0 0 32 32"
@@ -98,7 +111,8 @@
             />
           </svg>
           <svg
-            class="scissors-svg hidden"
+            class="scissors-svg"
+            data-value="scissors"
             height="800"
             width="800"
             xmlns="http://www.w3.org/2000/svg"
@@ -113,13 +127,17 @@
       <section class="bottom">
         <h2>YOUR MOVE</h2>
         <div class="choice-btns">
-          <button type="button" class="choice-btn rock" value="rock">
+          <button type="button" class="choice-btn rock" data-value="rock">
             Rock
           </button>
-          <button type="button" class="choice-btn paper" value="paper">
+          <button type="button" class="choice-btn paper" data-value="paper">
             Paper
           </button>
-          <button type="button" class="choice-btn scissors" value="scissors">
+          <button
+            type="button"
+            class="choice-btn scissors"
+            data-value="scissors"
+          >
             Scissors
           </button>
         </div>

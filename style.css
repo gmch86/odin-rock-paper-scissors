@@ -35,13 +35,13 @@ body {
         height: 100%;
       }
 
-      .hidden {
-        display: none;
-      }
-
       .no-selection {
         font-size: 10em;
         text-align: center;
+      }
+
+      svg {
+        display: none;
       }
     }
 

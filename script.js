@@ -10,6 +10,12 @@
   const computerScoreNumberDisplay = document.querySelector(
     ".computer-score-number",
   );
+  const humanChoiceContainer = document.querySelector(
+    ".human-choice-container",
+  );
+  const computerChoiceContainer = document.querySelector(
+    ".computer-choice-container",
+  );
 
   // Object to store game data
   const game = {
@@ -18,11 +24,14 @@
     numberOfRounds: 5,
     currentRound: 1,
     humanChoice: null,
-    result: null,
+    computerChoice: null,
+    finalResult: null,
   };
 
+  // Initialize
   resetGame();
   updateUI();
+  updateResultInfoBox();
 
   uiCheckbox.addEventListener("change", (e) => {
     resetGame();
@@ -34,7 +43,7 @@
       resetGame();
     }
 
-    while (!game.result) {
+    while (!game.finalResult) {
       const humanChoice = getHumanChoice();
 
       if (!humanChoice) {
@@ -49,20 +58,31 @@
   resetBtn.addEventListener("click", (e) => {
     resetGame();
     updateUI();
+    updateResultInfoBox();
   });
 
   choiceBtns.addEventListener("click", (e) => {
-    game.humanChoice = getHumanChoice(e.target.value);
-    console.log(`You have selected: ${game.humanChoice}`);
+    if (e.target.dataset.value) {
+      game.humanChoice = getHumanChoice(e.target.dataset.value);
+      console.log(`You have selected: ${game.humanChoice}`);
+    }
 
     updateUI();
   });
 
   battleBtn.addEventListener("click", (e) => {
-    if (game.humanChoice) {
-      playRound(game.humanChoice, getComputerChoice());
+    let roundResult;
+
+    if (game.humanChoice && game.finalResult === null) {
+      game.computerChoice = getComputerChoice();
+      roundResult = playRound(game.humanChoice, game.computerChoice, true);
+      updateResultInfoBox(roundResult);
     } else {
-      console.error("No choice selected!");
+      if (!game.humanChoice) {
+        console.error("No choice selected!");
+      } else {
+        console.error("Game has ended! Start a new game.");
+      }
     }
 
     updateUI();
@@ -73,7 +93,8 @@
     game.computerScore = 0;
     game.currentRound = 1;
     game.humanChoice = null;
-    game.result = null;
+    game.computerChoice = null;
+    game.finalResult = null;
 
     console.log("Game reset.");
     console.log(`Round ${game.currentRound}`);
@@ -136,9 +157,9 @@
     }
   }
 
-  function playRound(humanChoice, computerChoice) {
+  function playRound(humanChoice, computerChoice, ui = false) {
     // Determine if a game has been initiated or finished
-    if (!game.currentRound || game.result) {
+    if (!game.currentRound || game.finalResult) {
       return console.error("No game in progress.");
     }
 
@@ -153,17 +174,17 @@
       if (game.currentRound === game.numberOfRounds) {
         if (game.humanScore === game.computerScore) {
           msg = "Game over. It was a draw!";
-          game.result = "tie";
+          game.finalResult = "tie";
         } else if (game.humanScore > game.computerScore) {
           msg = "Game over. You are the winner!";
-          game.result = "win";
+          game.finalResult = "win";
         } else {
           msg = "Game over. You are the loser!";
-          game.result = "loss";
+          game.finalResult = "loss";
         }
 
         console.log(msg);
-        alert(msg);
+        if (!ui) alert(msg);
 
         return true;
       }
@@ -178,33 +199,56 @@
     };
 
     let msg;
+    let roundResult;
 
     // Determine winner and increase scores
     if (humanChoice === computerChoice) {
       msg = "It's a draw!";
+      roundResult = "tie";
     } else if (rules[humanChoice].winsAgainst === computerChoice) {
       msg = `You have won this round! ${capitalizeFirstLetter(humanChoice)} beats ${capitalizeFirstLetter(computerChoice)}.`;
+      roundResult = "win";
       game.humanScore++;
     } else if (rules[humanChoice].losesAgainst === computerChoice) {
       msg = `You have lost this round! ${capitalizeFirstLetter(computerChoice)} beats ${capitalizeFirstLetter(humanChoice)}.`;
+      roundResult = "loss";
       game.computerScore++;
     }
 
     console.log(msg);
-    alert(msg);
+    if (!ui) alert(msg);
 
     if (!isGameOver()) {
       game.currentRound++;
       console.log(`Round: ${game.currentRound}`);
     }
+
+    return roundResult;
   }
 
   function updateUI() {
     const toggleSelectedChoice = () => {
       [...choiceBtns.children].forEach((e) => {
-        e.classList.remove("selected");
-        if (game?.humanChoice === e.value) {
+        if (game.humanChoice === e.dataset.value) {
           e.classList.add("selected");
+        } else {
+          e.classList.remove("selected");
+        }
+      });
+
+      [...humanChoiceContainer.children].forEach((e) => {
+        if (String(game.humanChoice) === e.dataset.value) {
+          e.style.display = "block";
+        } else {
+          e.style.display = "none";
+        }
+      });
+
+      [...computerChoiceContainer.children].forEach((e) => {
+        if (String(game.computerChoice) === e.dataset.value) {
+          e.style.display = "block";
+        } else {
+          e.style.display = "none";
         }
       });
     };
@@ -221,6 +265,67 @@
     } else {
       enabledUIContainer.style.display = "none";
       playBtn.style.display = "";
+    }
+  }
+
+  function updateResultInfoBox(result) {
+    const roundResultInfoBox = document.querySelector(".round-result-info-box");
+    const roundResultElement = document.querySelector(
+      ".round-result-info-box .round-result",
+    );
+    const roundResultDesc = document.querySelector(
+      ".round-result-info-box .round-result-desc",
+    );
+    const finalResultInfoBox = document.querySelector(".final-result-info-box");
+    const finalResultDesc = document.querySelector(
+      ".final-result-info-box .final-result-desc",
+    );
+
+    const capitalizeFirstLetter = (string) => {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
+    if (game.finalResult) {
+      finalResultInfoBox.style.visibility = "visible";
+
+      switch (game.finalResult) {
+        case "tie":
+          finalResultDesc.textContent = "It was a tie!";
+          break;
+        case "win":
+          finalResultDesc.textContent = "You are the winner!";
+          break;
+        case "loss":
+          finalResultDesc.textContent = "You are the loser!";
+          break;
+      }
+    } else {
+      finalResultInfoBox.style.visibility = "hidden";
+    }
+
+    if (result) {
+      roundResultInfoBox.style.visibility = "visible";
+    } else {
+      roundResultInfoBox.style.visibility = "hidden";
+      return;
+    }
+
+    const humanChoice = capitalizeFirstLetter(game.humanChoice);
+    const computerChoice = capitalizeFirstLetter(game.computerChoice);
+
+    switch (result) {
+      case "tie":
+        roundResultElement.textContent = "TIE!";
+        roundResultDesc.textContent = `${humanChoice} ties against ${computerChoice}`;
+        break;
+      case "win":
+        roundResultElement.textContent = "WIN!";
+        roundResultDesc.textContent = `${humanChoice} wins against ${computerChoice}`;
+        break;
+      case "loss":
+        roundResultElement.textContent = "LOSS!";
+        roundResultDesc.textContent = `${humanChoice} loses against ${computerChoice}`;
+        break;
     }
   }
 })();
