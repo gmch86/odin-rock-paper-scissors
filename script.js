@@ -228,6 +228,12 @@
     displaySelectedChoice(playerChoiceContainer, String(game.playerChoice));
     displaySelectedChoice(opponentChoiceContainer, String(game.opponentChoice));
     displayInfoBox();
+
+    if (game.finalResult || !choiceBtnSelection) {
+      battleBtn.disabled = true;
+    } else {
+      battleBtn.disabled = false;
+    }
   }
 
   // Retrieves textual information about game progress
