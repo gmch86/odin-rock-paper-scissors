@@ -180,7 +180,6 @@
       ".opponent-choice-container",
     );
     const roundResultInfoBox = document.querySelector(".round-result.info-box");
-    const gameResultInfoBox = document.querySelector(".game-result.info-box");
 
     const toggleSelectedChoice = () => {
       [...choiceBtns.children].forEach((e) => {
@@ -203,31 +202,22 @@
     };
 
     const displayInfoBox = () => {
-      const roundResultTitleElement = roundResultInfoBox.querySelector(
-        ".round-result-title",
-      );
-      const roundResultDescElement =
-        roundResultInfoBox.querySelector(".round-result-desc");
-      const gameResultDescElement =
-        gameResultInfoBox.querySelector(".game-result-desc");
+      const titleEl = roundResultInfoBox.querySelector(".round-result-title");
+      const descEl = roundResultInfoBox.querySelector(".round-result-desc");
 
-      if (!game.finalResult) {
-        gameResultInfoBox.style.visibility = "hidden";
-      } else {
-        gameResultInfoBox.style.visibility = "visible";
-        gameResultDescElement.textContent = getGameMessage("gameResult");
-      }
+      const show =
+        game.currentRound.count > 1 && game.playerChoice && game.opponentChoice;
 
-      if (
-        game.currentRound.count <= 1 ||
-        !game.playerChoice ||
-        !game.opponentChoice
-      ) {
-        roundResultInfoBox.style.visibility = "hidden";
+      roundResultInfoBox.style.visibility = show ? "visible" : "hidden";
+
+      if (!show) return;
+
+      if (game.finalResult) {
+        titleEl.textContent = getGameMessage("gameOver");
+        descEl.textContent = getGameMessage("gameResult");
       } else {
-        roundResultInfoBox.style.visibility = "visible";
-        roundResultTitleElement.textContent = `${game.currentRound.result.toUpperCase()}`;
-        roundResultDescElement.textContent = getGameMessage("roundResult");
+        titleEl.textContent = game.currentRound.result.toUpperCase();
+        descEl.textContent = getGameMessage("roundResult");
       }
     };
 
