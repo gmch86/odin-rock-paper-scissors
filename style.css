@@ -37,7 +37,7 @@ main {
       width: max-content;
     }
 
-    .computer-score-container {
+    .opponent-score-container {
       text-align: right;
     }
   }
@@ -47,8 +47,8 @@ main {
     justify-content: center;
     align-items: center;
 
-    .human-choice-container,
-    .computer-choice-container {
+    .player-choice-container,
+    .opponent-choice-container {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -81,8 +81,8 @@ main {
       flex-direction: column;
       height: 100%;
 
-      .round-result-info-box,
-      .final-result-info-box {
+      .round-result.info-box,
+      .game-result.info-box {
         display: flex;
         flex-direction: column;
         align-items: center;
