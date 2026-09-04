@@ -5,7 +5,7 @@
       player: 0,
       opponent: 0,
     },
-    numberOfRounds: 5,
+    scoreLimit: 5,
     currentRound: {
       value: 1,
       result: null,
@@ -77,19 +77,15 @@
     const opponentScore = game.scores.opponent;
 
     // Declare game winner
-    if (game.currentRound.count === game.numberOfRounds) {
-      if (playerScore === opponentScore) {
-        game.finalResult = "tie";
-      } else if (playerScore > opponentScore) {
-        game.finalResult = "win";
-      } else if (playerScore < opponentScore) {
-        game.finalResult = "loss";
-      }
-
-      return true;
+    if (playerScore === game.scoreLimit) {
+      game.finalResult = "win";
+    } else if (opponentScore === game.scoreLimit) {
+      game.finalResult = "loss";
+    } else {
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   function playRound(playerChoice, opponentChoice, scores) {
