@@ -23,7 +23,7 @@
 
   // Buttons for setting the player's choice
   const choiceBtns = document.querySelector(".choice-btns");
-  choiceBtns.addEventListener("mouseup", handleChoiceClick);
+  choiceBtns.addEventListener("click", handleChoiceClick);
 
   // Button for playing a round once player has a selected choice
   const battleBtn = document.querySelector("button.battle-btn");
@@ -180,6 +180,7 @@
       ".opponent-choice-container",
     );
     const roundResultInfoBox = document.querySelector(".round-result.info-box");
+    const scoreLimitValue = document.querySelector(".score-limit-value");
 
     const toggleSelectedChoice = () => {
       [...choiceBtns.children].forEach((e) => {
@@ -205,30 +206,52 @@
       const titleEl = roundResultInfoBox.querySelector(".round-result-title");
       const descEl = roundResultInfoBox.querySelector(".round-result-desc");
 
-      const show =
-        game.currentRound.count > 1 && game.playerChoice && game.opponentChoice;
+      // Show info box after a round
+      if (
+        game.playerChoice &&
+        game.opponentChoice &&
+        game.currentRound.result
+      ) {
+        roundResultInfoBox.style.visibility = "visible";
 
-      roundResultInfoBox.style.visibility = show ? "visible" : "hidden";
-
-      if (!show) return;
-
-      if (game.finalResult) {
-        titleEl.textContent = getGameMessage("gameOver");
-        descEl.textContent = getGameMessage("gameResult");
+        if (game.finalResult) {
+          titleEl.textContent = getGameMessage("gameOver");
+          descEl.textContent = getGameMessage("gameResult");
+        } else {
+          titleEl.textContent = game.currentRound.result.toUpperCase();
+          descEl.textContent = getGameMessage("roundResult");
+        }
       } else {
-        titleEl.textContent = game.currentRound.result.toUpperCase();
-        descEl.textContent = getGameMessage("roundResult");
+        roundResultInfoBox.style.visibility = "hidden";
+      }
+    };
+
+    const toggleWinnerClass = () => {
+      playerChoiceContainer.classList.remove("winner");
+      opponentChoiceContainer.classList.remove("winner");
+
+      switch (game.finalResult) {
+        case "win":
+          playerChoiceContainer.classList.add("winner");
+          break;
+
+        case "loss":
+          opponentChoiceContainer.classList.add("winner");
+          break;
       }
     };
 
     roundCountElement.textContent = `${game.currentRound.count}`;
     playerScoreElement.textContent = `${game.scores.player}`;
     opponentScoreElement.textContent = `${game.scores.opponent}`;
+    scoreLimitValue.textContent = `${game.scoreLimit}`;
     toggleSelectedChoice();
     displaySelectedChoice(playerChoiceContainer, String(game.playerChoice));
     displaySelectedChoice(opponentChoiceContainer, String(game.opponentChoice));
     displayInfoBox();
+    toggleWinnerClass();
 
+    // Disable the battle button on game end or no choice selected
     if (game.finalResult || !choiceBtnSelection) {
       battleBtn.disabled = true;
     } else {
@@ -252,7 +275,6 @@
     };
 
     const gameOverMessages = {
-      tie: "It was a tie!",
       win: "You are the winner!",
       loss: "You are the loser!",
     };
