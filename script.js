@@ -10,7 +10,7 @@ window.addEventListener("load", () => {
       player: 0,
       opponent: 0,
     },
-    scoreLimit: 5,
+    scoreLimit: 3,
     currentRound: {
       value: 1,
       result: null,
