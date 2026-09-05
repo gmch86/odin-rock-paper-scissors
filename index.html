@@ -14,137 +14,138 @@
     <script src="./script.js" defer></script>
   </head>
   <body>
-    <div class="game-container">
-      <header>
-        <h1>ROCK · PAPER · SCISSORS</h1>
-      </header>
-      <main>
-        <section class="top">
-          <div class="round-container">
-            <h2 class="round-title">ROUND</h2>
-            <span class="round-count">1</span>
+    <header>
+      <h1>ROCK · PAPER · SCISSORS</h1>
+    </header>
+    <main>
+      <section class="top">
+        <div class="round-container">
+          <h2 class="round-title">ROUND</h2>
+          <span class="round-count">1</span>
+        </div>
+        <div class="scores-wrapper">
+          <div class="player-score-container">
+            <h2 class="player-score-title">YOU</h2>
+            <span class="player-score-value">0</span>
           </div>
-          <div class="scores-wrapper">
-            <div class="player-score-container">
-              <h2 class="player-score-title">YOU</h2>
-              <span class="player-score-value">0</span>
-            </div>
-            <span class="versus-text">VS</span>
-            <div class="opponent-score-container">
-              <h2 class="opponent-score-title">OPPONENT</h2>
-              <span class="opponent-score-value">0</span>
-            </div>
+          <span class="versus-text">VS</span>
+          <div class="opponent-score-container">
+            <h2 class="opponent-score-title">OPPONENT</h2>
+            <span class="opponent-score-value">0</span>
           </div>
+        </div>
 
-          <div class="score-limit-container">
-            <h2 class="score-limit-title">SCORE LIMIT</h2>
-            <span class="score-limit-value">5</span>
+        <div class="score-limit-container">
+          <h2 class="score-limit-title">SCORE LIMIT</h2>
+          <span class="score-limit-value">5</span>
+        </div>
+      </section>
+      <section class="middle">
+        <div class="player-choice-container">
+          <span class="no-selection" data-value="null">?</span>
+          <img
+            class="rock-icon"
+            data-value="rock"
+            src="./images/rock.png"
+            alt="rock"
+          />
+          <img
+            class="paper-icon"
+            data-value="paper"
+            src="./images/paper.png"
+            alt="paper"
+          />
+          <img
+            class="scissors-icon"
+            data-value="scissors"
+            src="./images/scissors.png"
+            alt="scissors"
+          />
+        </div>
+
+        <div class="choice-seperator">
+          <div class="round-result info-box">
+            <h2 class="round-result-title">GAME OVER!</h2>
+            <p class="round-result-desc">You are the winner!</p>
           </div>
-        </section>
-        <section class="middle">
-          <div class="player-choice-container">
-            <span class="no-selection" data-value="null">?</span>
-            <img
-              class="rock-icon"
+          <button type="button" class="battle-btn">BATTLE!</button>
+          <button type="button" class="reset-btn">
+            <span class="material-symbols-outlined"> refresh </span>RESET
+          </button>
+        </div>
+        <div class="opponent-choice-container">
+          <span class="no-selection" data-value="null">?</span>
+          <img
+            class="rock-icon"
+            data-value="rock"
+            src="./images/rock.png"
+            alt="rock"
+          />
+          <img
+            class="paper-icon"
+            data-value="paper"
+            src="./images/paper.png"
+            alt="paper"
+          />
+          <img
+            class="scissors-icon"
+            data-value="scissors"
+            src="./images/scissors.png"
+            alt="scissors"
+          />
+        </div>
+      </section>
+      <section class="bottom">
+        <div class="your-move-wrapper">
+          <h2 class="your-move-heading">CHOOSE YOUR MOVE</h2>
+          <div class="choice-btns">
+            <button
+              title="rock"
+              type="button"
+              class="choice-btn rock"
               data-value="rock"
-              src="./images/rock.png"
-              alt="rock"
-            />
-            <img
-              class="paper-icon"
+            >
+              <img
+                class="rock-icon"
+                data-value="rock"
+                src="./images/rock.png"
+                alt="rock"
+              /><span>ROCK</span>
+            </button>
+            <button
+              title="paper"
+              type="button"
+              class="choice-btn paper"
               data-value="paper"
-              src="./images/paper.png"
-              alt="paper"
-            />
-            <img
-              class="scissors-icon"
+            >
+              <img
+                class="paper-icon"
+                data-value="paper"
+                src="./images/paper.png"
+                alt="paper"
+              />
+              <span>PAPER</span>
+            </button>
+            <button
+              title="scissors"
+              type="button"
+              class="choice-btn scissors"
               data-value="scissors"
-              src="./images/scissors.png"
-              alt="scissors"
-            />
-          </div>
-
-          <div class="choice-seperator">
-            <div class="round-result info-box">
-              <h2 class="round-result-title">GAME OVER!</h2>
-              <p class="round-result-desc">You are the winner!</p>
-            </div>
-            <button type="button" class="battle-btn">BATTLE!</button>
-            <button type="button" class="reset-btn">
-              <span class="material-symbols-outlined"> refresh </span>RESET
+            >
+              <img
+                class="scissors-icon"
+                data-value="scissors"
+                src="./images/scissors.png"
+                alt="scissors"
+              />
+              <span>SCISSORS</span>
             </button>
           </div>
-          <div class="opponent-choice-container">
-            <span class="no-selection" data-value="null">?</span>
-            <img
-              class="rock-icon"
-              data-value="rock"
-              src="./images/rock.png"
-              alt="rock"
-            />
-            <img
-              class="paper-icon"
-              data-value="paper"
-              src="./images/paper.png"
-              alt="paper"
-            />
-            <img
-              class="scissors-icon"
-              data-value="scissors"
-              src="./images/scissors.png"
-              alt="scissors"
-            />
-          </div>
-        </section>
-        <section class="bottom">
-          <div class="your-move-wrapper">
-            <h2 class="your-move-heading">CHOOSE YOUR MOVE</h2>
-            <div class="choice-btns">
-              <button
-                title="rock"
-                type="button"
-                class="choice-btn rock"
-                data-value="rock"
-              >
-                <img
-                  class="rock-icon"
-                  data-value="rock"
-                  src="./images/rock.png"
-                  alt="rock"
-                /><span>ROCK</span>
-              </button>
-              <button
-                title="paper"
-                type="button"
-                class="choice-btn paper"
-                data-value="paper"
-              >
-                <img
-                  class="paper-icon"
-                  data-value="paper"
-                  src="./images/paper.png"
-                  alt="paper"
-                />
-                <span>PAPER</span>
-              </button>
-              <button
-                title="scissors"
-                type="button"
-                class="choice-btn scissors"
-                data-value="scissors"
-              >
-                <img
-                  class="scissors-icon"
-                  data-value="scissors"
-                  src="./images/scissors.png"
-                  alt="scissors"
-                />
-                <span>SCISSORS</span>
-              </button>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2026 gmch86 - The Odin Project</p>
+    </footer>
   </body>
 </html>
